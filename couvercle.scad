@@ -125,9 +125,11 @@ module couvercle_boss() {
                 translate([pos[0], pos[1], -hauteur_boss])
                     cylinder(d = BOSS_DIAMETRE, h = hauteur_boss + t);
 
-                // Cône de renfort (base large en haut, arrêté avant la face)
-                translate([pos[0], pos[1], 0])
-                    cylinder(d1 = BOSS_DIAMETRE, d2 = BOSS_DIAMETRE + 4, h = z_top - t);
+                // Cône de renfort (sauf boss près joystick)
+                if (pos[0] != m || pos[1] != PROFONDEUR - m) {
+                    translate([pos[0], pos[1], 0])
+                        cylinder(d1 = BOSS_DIAMETRE, d2 = BOSS_DIAMETRE + 4, h = z_top - t);
+                }
             }
             // Trou d'insert au BAS du boss (côté bac)
             translate([pos[0], pos[1], -hauteur_boss - 0.1])
