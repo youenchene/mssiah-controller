@@ -1,36 +1,36 @@
 // =============================================================================
-// main.scad — Assemblage complet (vue 3D des deux moitiés)
+// main.scad — Full assembly (3D view of both halves)
 // =============================================================================
-// Affiche le bac et le couvercle assemblés ou en vue éclatée.
+// Shows the bottom and cover assembled or in exploded view.
 
 include <lib/dimensions.scad>
-use <bac.scad>
-use <couvercle.scad>
+use <bottom.scad>
+use <cover.scad>
 
 // -----------------------------------------------------------------------------
-// Paramètres d'affichage
+// Display parameters
 // -----------------------------------------------------------------------------
-EXPLODED = true;       // true = vue éclatée, false = assemblé
-SHOW_BAC = true;
-SHOW_COUVERCLE = true;
+EXPLODED = true;       // true = exploded view, false = assembled
+SHOW_BOTTOM = true;
+SHOW_COVER = true;
 
-// Décalage vertical pour la vue éclatée
-decalage_explode = EXPLODED ? 40 : 0;
+// Vertical offset for exploded view
+explode_offset = EXPLODED ? 40 : 0;
 
 // -----------------------------------------------------------------------------
-// Assemblage
+// Assembly
 // -----------------------------------------------------------------------------
-module assemblage() {
-    if (SHOW_BAC) {
+module assembly() {
+    if (SHOW_BOTTOM) {
         color("lightgray", 0.9)
-            bac();
+            bottom();
     }
 
-    if (SHOW_COUVERCLE) {
+    if (SHOW_COVER) {
         color("lightblue", 0.9)
-            translate([0, 0, EPAISSEUR_BASE + decalage_explode])
-                couvercle();
+            translate([0, 0, BASE_THICKNESS + explode_offset])
+                cover();
     }
 }
 
-assemblage();
+assembly();

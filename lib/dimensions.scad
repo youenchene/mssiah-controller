@@ -1,45 +1,45 @@
 // =============================================================================
-// dimensions.scad — Toutes les variables dimensionnelles du boîtier MSSIAH
+// dimensions.scad — All dimensional variables for the MSSIAH controller enclosure
 // =============================================================================
-// Origine du repère de la face inclinée : coin bas-gauche (avant-gauche).
-// X = largeur (gauche → droite), Y = longueur le long de la pente (avant → arrière).
+// Origin of the sloped face coordinate system: bottom-left corner (front-left as seen by operator).
+// X = width (left → right), Y = length along the slope (front → back).
 
 // -----------------------------------------------------------------------------
-// Boîtier — dimensions globales
+// Enclosure — global dimensions
 // -----------------------------------------------------------------------------
-LARGEUR          = 120;    // largeur (gauche → droite)
-PROFONDEUR       = 160;    // profondeur (avant → arrière, projetée au sol)
-HAUTEUR_BAC      = 25;     // hauteur du bac (rectangle droit, ouvert en haut)
-ANGLE_PENTE      = 20;     // angle d'inclinaison de la face (degrés)
-EPAISSEUR_PAROI  = 2.5;    // épaisseur des parois
-EPAISSEUR_BASE   = 2.5;    // épaisseur de la base du bac
+WIDTH            = 120;    // width (left → right)
+DEPTH            = 160;    // depth (front → back, projected on ground)
+BASE_HEIGHT      = 25;     // height of the bottom/base (straight rectangle, open on top)
+SLOPE_ANGLE      = 20;     // slope angle of the face (degrees)
+WALL_THICKNESS   = 2.5;    // wall thickness
+BASE_THICKNESS   = 2.5;    // thickness of the bottom base
 
-// Couvercle : rebord vertical minimal pour la rainure
-COUVERCLE_REBORD = 3;      // hauteur du rebord vertical avant (pour la rainure)
+// Cover: minimal vertical rim for the groove
+COVER_RIM_HEIGHT = 3;      // height of the front vertical rim (for the groove)
 
-// Hauteur du couvercle (face inclinée au-dessus du bac)
-COUVERCLE_H_AVANT = COUVERCLE_REBORD;                          // 3 mm
-COUVERCLE_H_ARRIERE = COUVERCLE_REBORD + PROFONDEUR * tan(ANGLE_PENTE); // ≈ 61 mm
+// Cover height (sloped face above the base)
+COVER_HEIGHT_FRONT = COVER_RIM_HEIGHT;                              // 3 mm
+COVER_HEIGHT_BACK  = COVER_RIM_HEIGHT + DEPTH * tan(SLOPE_ANGLE);   // ≈ 61 mm
 
-// Hauteur arrière totale du boîtier (bac + couvercle)
-HAUTEUR_ARRIERE_TOTALE = HAUTEUR_BAC + COUVERCLE_H_ARRIERE;   // ≈ 86 mm
+// Total back height of the enclosure (base + cover)
+TOTAL_BACK_HEIGHT = BASE_HEIGHT + COVER_HEIGHT_BACK;               // ≈ 86 mm
 
-// Longueur de la face inclinée (le long de la pente)
-LONGUEUR_PENTE   = PROFONDEUR / cos(ANGLE_PENTE);  // ≈ 170 mm
-
-// -----------------------------------------------------------------------------
-// Jonction bac / couvercle (lèvre mâle + rainure)
-// -----------------------------------------------------------------------------
-LEVRE_EPAISSEUR  = 2.0;   // épaisseur de la lèvre mâle (sur le bac)
-LEVRE_HAUTEUR    = 3.0;   // hauteur de la lèvre mâle
-RAINURE_LARGEUR  = 2.2;   // largeur de la rainure (dans le couvercle) — jeu 0.2
-RAINURE_PROFONDEUR = 3.2; // profondeur de la rainure — jeu 0.2
-RAINURE_CHANFREIN = 0.5;  // chanfrein d'entrée de rainure (mm × 45°)
+// Length of the sloped face (along the slope)
+SLOPE_LENGTH     = DEPTH / cos(SLOPE_ANGLE);                       // ≈ 170 mm
 
 // -----------------------------------------------------------------------------
-// Inserts à chaud — dimensions par taille
+// Base / cover joint (male lip + groove)
 // -----------------------------------------------------------------------------
-// Format : [diam_ext, longueur, diam_perçage, prof_perçage]
+LIP_THICKNESS    = 2.0;   // thickness of the male lip (on the base)
+LIP_HEIGHT       = 3.0;   // height of the male lip
+GROOVE_WIDTH     = 2.2;   // groove width (in the cover) — 0.2 clearance
+GROOVE_DEPTH_DIM = 3.2;   // groove depth — 0.2 clearance
+GROOVE_CHAMFER   = 0.5;   // groove entry chamfer (mm × 45°)
+
+// -----------------------------------------------------------------------------
+// Heat-set inserts — dimensions by size
+// -----------------------------------------------------------------------------
+// Format: [ext_diameter, length, drill_diameter, drill_depth]
 function insert_dims(m) =
     m == 2.5 ? [3.5, 4,  3.0, 5] :
     m == 3   ? [5.0, 4,  4.0, 5] :
@@ -49,95 +49,95 @@ function insert_dims(m) =
 
 INSERT_JOYSTICK_M   = 2.5;
 INSERT_DB9_M        = 3;
-INSERT_ASSEMBLAGE_M = 3;
+INSERT_ASSEMBLY_M   = 3;
 
 // -----------------------------------------------------------------------------
-// Boss de fixation (assemblage bac/couvercle)
+// Fixation bosses (base/cover assembly)
 // -----------------------------------------------------------------------------
-BOSS_DIAMETRE    = 10;    // diamètre du pilier
-BOSS_MARGE_BORD  = 10;    // distance du bord
+BOSS_DIAMETER    = 10;    // pillar diameter
+BOSS_EDGE_MARGIN = 10;    // distance from edge
 
 // -----------------------------------------------------------------------------
-// Patins de pied
+// Foot pads
 // -----------------------------------------------------------------------------
-PATIN_DIAMETRE   = 11;    // diamètre des patins adhésifs
-PATIN_PROFONDEUR = 0.5;   // profondeur du détourage (guide surfacique)
-PATIN_MARGE_BORD = 25;    // distance du bord (décalé des vis d'assemblage)
+FOOT_DIAMETER    = 11;    // diameter of adhesive foot pads
+FOOT_RECESS_DEPTH = 0.5;  // depth of the surface recess
+FOOT_EDGE_MARGIN = 25;    // distance from edge (offset from assembly screws)
 
 // -----------------------------------------------------------------------------
-// Nervures de rigidification (base du bac)
+// Stiffening ribs (bottom base)
 // -----------------------------------------------------------------------------
-NERVURE_LARGEUR  = 2;     // largeur des nervures
-NERVURE_HAUTEUR  = 3;     // hauteur des nervures
+RIB_WIDTH        = 2;     // rib width
+RIB_HEIGHT       = 3;     // rib height
 
 // -----------------------------------------------------------------------------
-// Potentiomètres (×4)
+// Potentiometers (×4)
 // -----------------------------------------------------------------------------
-POT_AXE_DIAMETRE       = 9.7;   // diamètre de l'axe fileté
-POT_TROU_DIAMETRE      = 10;     // trou de passage dans la face
-POT_ECROU_AF           = 13.85;  // écrou hex across-flats
-POT_ECROU_PROFONDEUR   = 4;      // profondeur du logement hexagonal
-POT_LOGEMENT_HEX_AF    = 14;     // logement hex (jeu inclus)
-POT_RONDELLE_DECO_DIAM = 41;     // rondelle décorative extérieure
-POT_RONDELLE_INT_DIAM  = 15;     // rondelle intérieure
-POT_KNOB_DIAMETRE      = 26.5;   // bouton (knob)
-POT_CORPS_DIAMETRE     = 28;     // corps du potentiomètre
-POT_CORPS_HAUTEUR      = 12.6;   // hauteur du corps sous la face
-POT_RENFORT_DIAMETRE   = 22;     // diamètre du renfort local
-POT_RENFORT_EPAISSEUR  = 4;      // épaisseur du renfort local
+POT_SHAFT_DIAMETER        = 9.7;   // threaded shaft diameter
+POT_HOLE_DIAMETER         = 10;    // pass-through hole in the face
+POT_NUT_AF                = 13.85; // hex nut across-flats
+POT_NUT_DEPTH             = 4;     // depth of the hexagonal socket
+POT_HEX_SOCKET_AF         = 14;    // hex socket (with clearance)
+POT_WASHER_DECO_DIAM      = 41;    // decorative outer washer
+POT_WASHER_INNER_DIAM     = 15;    // inner washer
+POT_KNOB_DIAMETER         = 26.5;  // knob
+POT_BODY_DIAMETER         = 28;    // potentiometer body diameter
+POT_BODY_HEIGHT           = 12.6;  // body height under the face
+POT_REINFORCE_DIAMETER    = 22;    // local reinforcement diameter
+POT_REINFORCE_THICKNESS   = 4;     // local reinforcement thickness
 
-// Positions des potentiomètres (repère face inclinée)
+// Potentiometer positions (sloped face coordinate system)
 POT_POSITIONS = [
-    [38.5, 85],   // P1 — rangée médiane, gauche
-    [81.5, 85],   // P2 — rangée médiane, droite
-    [38.5, 40],   // P3 — rangée avant, gauche
-    [81.5, 40],   // P4 — rangée avant, droite
+    [38.5, 85],   // P1 — middle row, left
+    [81.5, 85],   // P2 — middle row, right
+    [38.5, 40],   // P3 — front row, left
+    [81.5, 40],   // P4 — front row, right
 ];
 
 // -----------------------------------------------------------------------------
 // Joystick (×1)
 // -----------------------------------------------------------------------------
-JOY_TROU_DIAMETRE     = 32;     // trou de passage (cap + base + jeu)
-JOY_CAP_DIAMETRE      = 15;     // diamètre du cap
-JOY_PCB_TAILLE        = 34;     // taille du PCB (carré)
-JOY_PCB_ENTRAXE       = 35;     // entraxe des trous de fixation
-JOY_PCB_TROU_DIAMETRE = 2.5;    // diamètre des trous sur le PCB
-JOY_RENFORT_TAILLE    = 45;     // taille du renfort local (carré)
-JOY_RENFORT_EPAISSEUR = 6;      // épaisseur du renfort local
-JOY_POSITION          = [30, 130]; // position du joystick (repère face inclinée)
+JOY_HOLE_DIAMETER      = 32;     // pass-through hole (cap + base + clearance)
+JOY_CAP_DIAMETER       = 15;     // cap diameter
+JOY_PCB_SIZE           = 34;     // PCB size (square)
+JOY_PCB_SPACING        = 35;     // mounting hole spacing (center-to-center)
+JOY_PCB_HOLE_DIAMETER  = 2.5;    // hole diameter on the PCB
+JOY_REINFORCE_SIZE     = 45;     // local reinforcement size (square)
+JOY_REINFORCE_THICKNESS = 6;     // local reinforcement thickness
+JOY_POSITION           = [30, 130]; // joystick position (sloped face coordinates)
 
 // -----------------------------------------------------------------------------
-// Bouton arcade Sanwa OBSF-30 (×1)
+// Arcade button Sanwa OBSF-30 (×1)
 // -----------------------------------------------------------------------------
-BTN_TROU_DIAMETRE     = 30;     // trou de passage (snap-in)
-BTN_COLLET_DIAMETRE   = 33;     // diamètre du collet
-BTN_PROFONDEUR        = 40;     // profondeur sous la face
-BTN_POSITION          = [90, 130]; // position (repère face inclinée)
+BTN_HOLE_DIAMETER      = 30;     // pass-through hole (snap-in)
+BTN_COLLAR_DIAMETER    = 33;     // collar diameter
+BTN_DEPTH              = 40;     // depth under the face
+BTN_POSITION           = [90, 130]; // position (sloped face coordinates)
 
 // -----------------------------------------------------------------------------
 // DB9 (×1)
 // -----------------------------------------------------------------------------
-DB9_DECOUPE_LARGEUR   = 24;     // découpe rectangulaire (largeur, X)
-DB9_DECOUPE_HAUTEUR   = 12;     // découpe rectangulaire (hauteur, Z)
-DB9_ENTRAXE_INSERTS   = 30;     // entraxe des inserts M3 (en X, hors découpe)
-DB9_POSITION_X        = 60;     // position X sur la face arrière (centré)
-DB9_POSITION_Z        = 12.5;   // position Z depuis le bas du bac (centré en 25 mm) — obsolète, DB9 déplacé
-DB9_POSITION_Z_COUVERCLE = 15;  // position Z depuis le bas du couvercle
-DB9_RENFORT_LARGEUR   = 45;     // largeur du renfort local
-DB9_RENFORT_HAUTEUR   = 25;     // hauteur du renfort local
-DB9_RENFORT_EPAISSEUR = 6;      // épaisseur du renfort local
+DB9_CUTOUT_WIDTH       = 24;     // rectangular cutout (width, X)
+DB9_CUTOUT_HEIGHT      = 12;     // rectangular cutout (height, Z)
+DB9_INSERT_SPACING     = 30;     // M3 insert spacing (in X, outside cutout)
+DB9_POSITION_X         = 60;     // X position on the back face (centered)
+DB9_POSITION_Z         = 12.5;   // Z position from bottom of base (centered in 25 mm) — obsolete, DB9 moved
+DB9_POSITION_Z_COVER   = 15;     // Z position from bottom of cover
+DB9_REINFORCE_WIDTH    = 45;     // local reinforcement width
+DB9_REINFORCE_HEIGHT   = 25;     // local reinforcement height
+DB9_REINFORCE_THICKNESS = 6;     // local reinforcement thickness
 
 // -----------------------------------------------------------------------------
-// Passe-câbles (×3)
+// Cable guides (×3)
 // -----------------------------------------------------------------------------
-PASSE_CABLE_HAUTEUR   = 5;      // hauteur de l'arche
-PASSE_CABLE_LARGEUR   = 8;      // largeur de l'arche
-PASSE_CABLE_EPAISSEUR = 1.5;    // épaisseur des parois de l'arche
+CABLE_GUIDE_HEIGHT     = 5;      // arch height
+CABLE_GUIDE_WIDTH      = 8;      // arch width
+CABLE_GUIDE_THICKNESS   = 1.5;   // arch wall thickness
 
-// Positions des passes-câbles (Y le long de la pente)
-PASSE_CABLE_POSITIONS_Y = [110, 65, 20]; // entre les rangées, vers l'arrière
+// Cable guide positions (Y along the slope)
+CABLE_GUIDE_POSITIONS_Y = [110, 65, 20]; // between rows, toward the back
 
 // -----------------------------------------------------------------------------
-// Résolution d'impression
+// Print resolution
 // -----------------------------------------------------------------------------
-$fn = 64;  // résolution des cylindres
+$fn = 64;  // cylinder resolution

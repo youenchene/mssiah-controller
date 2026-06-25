@@ -1,41 +1,41 @@
-# Glossaire — Boîtier MSSIAH Controller
+# Glossary — MSSIAH Controller Enclosure
 
-## Pièces
+## Parts
 
-- **Bac** : moitié du bas du boîtier. Base plate + 4 parois verticales + 4 boss de fixation. Reçoit l'électronique par le bas.
-- **Couvercle** : moitié du haut du boîtier. Porte la face inclinée sur laquelle sont montés les contrôles (joystick, bouton, potentiomètres). Se visse sur le bac.
-- **Face inclinée** : surface plane à 20° par rapport à l'horizontale, orientée vers l'opérateur (arrière haut, avant bas). Porte tous les contrôles.
-- **Boss** : pilier cylindrique vertical imprimé à l'intérieur du bac, contenant un insert à chaud. Sert de point de fixation pour visser le couvercle.
-- **Renfort local** : zone épaissie de la face inclinée (ou d'une paroi) au niveau d'un composant, pour loger un insert ou un écrou et rigidifier la fixation.
-- **Lèvre mâle** : rebord en gradins sur le périmètre du bac, qui s'insère dans la rainure du couvercle pour l'auto-alignement.
-- **Rainure** : gorge femelle dans le rebord du couvercle, qui reçoit la lèvre mâle du bac.
-- **Passe-câbles** : petite arche imprimée en relief sur la face intérieure du couvercle, sous laquelle passent les câbles pour les guider.
+- **Bottom** : lower half of the enclosure. Flat base + 4 vertical walls + 4 fixation bosses. Receives the electronics from underneath.
+- **Cover** : upper half of the enclosure. Carries the sloped face on which the controls are mounted (joystick, button, potentiometers). Screws onto the bottom.
+- **Sloped face** : flat surface at 20° to the horizontal, facing the operator (back high, front low). Carries all controls.
+- **Boss** : vertical cylindrical pillar printed inside the bottom, containing a heat-set insert. Serves as a fixation point to screw the cover on.
+- **Local reinforcement** : thickened area of the sloped face (or a wall) at a component location, to house an insert or nut and stiffen the fixation.
+- **Male lip** : stepped rim on the bottom perimeter, which inserts into the cover groove for self-alignment.
+- **Groove** : female channel in the cover rim, which receives the bottom's male lip.
+- **Cable guide** : small arch printed in relief on the inner face of the cover, under which cables pass for routing.
 
-## Composants électroniques
+## Electronic Components
 
-- **Potentiomètre (pot)** : potentiomètre rotatif B10K. Axe fileté Ø 9.7 mm, écrou hex 13.85 mm across-flats, rondelle décorative Ø 41 mm, bouton (knob) Ø 26.5 mm. Corps Ø 28 mm, hauteur 12.6 mm sous la face.
-- **Joystick** : module analogique (type PS2). Cap Ø 15 mm, base plus large, PCB 34×34 mm avec 4 trous de fixation Ø 2.5 mm (vis M2.5) à 35 mm d'entraxe. Monté sous la face inclinée, cap dépasse par trou Ø 32 mm. Fixation par inserts M2.5 (Ø 3.5 ext, long. 4 mm) à chaud + vis M2.5.
-- **Bouton arcade** : Sanwa OBSF-30, snap-in. Tête Ø 30 mm, collet Ø 33 mm, profondeur ~40 mm sous la face. Se clipse dans un trou Ø 30 mm, pas de vis.
-- **DB9** : connecteur châssis femelle 9 broches. Corps ~30×13 mm, fixé par 2 vis M3 sur la face arrière. Relie le contrôleur au port CB8 du C64.
+- **Potentiometer (pot)** : rotary potentiometer B10K. Threaded shaft Ø 9.7 mm, hex nut 13.85 mm across-flats, decorative washer Ø 41 mm, knob Ø 26.5 mm. Body Ø 28 mm, height 12.6 mm under the face.
+- **Joystick** : analog module (PS2 type). Cap Ø 15 mm, wider base, PCB 34×34 mm with 4 fixation holes Ø 2.5 mm (M2.5 screws) at 35 mm spacing. Mounted under the sloped face, cap protrudes through Ø 32 mm hole. Fixation via M2.5 heat-set inserts (Ø 3.5 ext, length 4 mm) + M2.5 screws.
+- **Arcade button** : Sanwa OBSF-30, snap-in. Head Ø 30 mm, collar Ø 33 mm, depth ~40 mm under the face. Clips into a Ø 30 mm hole, no screws.
+- **DB9** : female 9-pin chassis connector. Body ~30×13 mm, fixed by 2 M3 screws on the back face. Connects the controller to the C64's CB8 port.
 
-## Inserts à chaud
+## Heat-Set Inserts
 
-- Inserts en laiton cannelés, chauffés puis pressés dans le plastique. Filetage intérieur métrique.
-- Inventaire disponible : M2 (long. 2 et 4), M2.5 (long. 4, à acheter), M3 (4/6/8), M4 (4/6/8), M5 (4/6/8), M6, M8 (6/10).
-- Diamètres extérieurs : M2=3.2, M3=5, M4=6, M5=7, M6=8, M8=10 mm.
+- Knurled brass inserts, heated and pressed into plastic. Metric internal threading.
+- Available inventory : M2 (length 2 and 4), M2.5 (length 4, to purchase), M3 (4/6/8), M4 (4/6/8), M5 (4/6/8), M6, M8 (6/10).
+- External diameters : M2=3.2, M3=5, M4=6, M5=7, M6=8, M8=10 mm.
 
-## Fixations utilisées dans ce projet
+## Fasteners Used in This Project
 
-| Usage | Insert | Vis | Perçage plastique |
+| Use | Insert | Screw | Plastic Drilling |
 |---|---|---|---|
-| Joystick (×4) | M2.5, Ø 3.5 ext, long. 4 mm | M2.5 × 8 mm | Ø 3.0 mm, prof. 5 mm |
-| DB9 (×2) | M3, Ø 5 ext, long. 4 mm | M3 × 8 mm | Ø 4.0 mm, prof. 5 mm |
-| Assemblage bac/couvercle (×4) | M3, Ø 5 ext, long. 4 mm | M3 × 10 mm | Ø 4.0 mm, prof. 5 mm |
-| Potentiomètres (×4) | Aucun (écrou hex noyé M6 fourni) | Écrou M6 fourni | Logement hex 14 mm |
+| Joystick (×4) | M2.5, Ø 3.5 ext, length 4 mm | M2.5 × 8 mm | Ø 3.0 mm, depth 5 mm |
+| DB9 (×2) | M3, Ø 5 ext, length 4 mm | M3 × 8 mm | Ø 4.0 mm, depth 5 mm |
+| Bottom/cover assembly (×4) | M3, Ø 5 ext, length 4 mm | M3 × 10 mm | Ø 4.0 mm, depth 5 mm |
+| Potentiometers (×4) | None (M6 embedded hex nut supplied) | M6 nut supplied | 14 mm hex socket |
 
-## Repère de la face inclinée
+## Sloped Face Coordinate System
 
-- Origine : coin bas-gauche (avant-gauche vu de l'opérateur).
-- Axe X : largeur (0 à 120 mm), gauche → droite.
-- Axe Y : longueur le long de la pente (0 à ~170 mm), avant → arrière.
-- "Haut" du joystick = vers l'arrière du boîtier (haut de la pente).
+- Origin : bottom-left corner (front-left as seen by operator).
+- X axis : width (0 to 120 mm), left → right.
+- Y axis : length along the slope (0 to ~170 mm), front → back.
+- "Up" of the joystick = toward the back of the enclosure (top of the slope).

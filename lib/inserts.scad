@@ -1,59 +1,59 @@
 // =============================================================================
-// inserts.scad — Modules paramétriques pour inserts à chaud
+// inserts.scad — Parametric modules for heat-set inserts
 // =============================================================================
-// Fournit des modules pour percer les trous d'insert et modéliser les inserts.
+// Provides modules for drilling insert holes and modeling inserts.
 
 include <dimensions.scad>
 
 // -----------------------------------------------------------------------------
-// Trou de perçage pour insert à chaud (à soustraire de la pièce)
-// m : taille métrique (2.5, 3, 4, 5)
-// prof : profondeur du trou (défaut = prof_perçage de l'insert)
+// Drill hole for heat-set insert (to subtract from the part)
+// m : metric size (2.5, 3, 4, 5)
+// depth : hole depth (default = drill_depth of the insert)
 // -----------------------------------------------------------------------------
-module trou_insert(m, prof = 0) {
+module insert_hole(m, depth = 0) {
     dims = insert_dims(m);
-    diam_per = dims[2];
-    p = (prof > 0) ? prof : dims[3];
+    diam_drill = dims[2];
+    d = (depth > 0) ? depth : dims[3];
     translate([0, 0, 0])
-        cylinder(d = diam_per, h = p + 0.1, center = false);
+        cylinder(d = diam_drill, h = d + 0.1, center = false);
 }
 
 // -----------------------------------------------------------------------------
-// Trou traversant pour vis (à soustraire de la pièce)
-// m : taille métrique (2.5, 3, 4, 5)
+// Through-hole for screw (to subtract from the part)
+// m : metric size (2.5, 3, 4, 5)
 // -----------------------------------------------------------------------------
-module trou_vis_traversant(m) {
-    diam_vis = (m == 2.5) ? 2.7 : (m == 3) ? 3.2 : (m == 4) ? 4.2 : 5.2;
-    cylinder(d = diam_vis, h = 100, center = true);
+module screw_through_hole(m) {
+    diam_screw = (m == 2.5) ? 2.7 : (m == 3) ? 3.2 : (m == 4) ? 4.2 : 5.2;
+    cylinder(d = diam_screw, h = 100, center = true);
 }
 
 // -----------------------------------------------------------------------------
-// Modèle 3D d'un insert à chaud (pour visualisation uniquement)
-// m : taille métrique
+// 3D model of a heat-set insert (visualization only)
+// m : metric size
 // -----------------------------------------------------------------------------
 module insert_model(m) {
     dims = insert_dims(m);
-    diam_ext = dims[0];
-    longueur = dims[1];
+    ext_diam = dims[0];
+    length = dims[1];
     color("gold")
-        cylinder(d = diam_ext, h = longueur, center = false, $fn = 32);
+        cylinder(d = ext_diam, h = length, center = false, $fn = 32);
 }
 
 // -----------------------------------------------------------------------------
-// Boss complet avec insert (pour le bac)
-// m : taille métrique de l'insert
-// hauteur_boss : hauteur du pilier
+// Complete boss with insert (for the base)
+// m : metric size of the insert
+// boss_height : pillar height
 // -----------------------------------------------------------------------------
-module boss_insert(m, hauteur_boss) {
+module boss_with_insert(m, boss_height) {
     dims = insert_dims(m);
-    diam_per = dims[2];
-    prof_per = dims[3];
+    diam_drill = dims[2];
+    drill_depth = dims[3];
 
-    // Pilier
+    // Pillar
     difference() {
-        cylinder(d = BOSS_DIAMETRE, h = hauteur_boss, center = false);
-        // Trou de perçage pour l'insert (au sommet du boss)
-        translate([0, 0, hauteur_boss - prof_per])
-            cylinder(d = diam_per, h = prof_per + 0.1, center = false);
+        cylinder(d = BOSS_DIAMETER, h = boss_height, center = false);
+        // Drill hole for the insert (at the top of the boss)
+        translate([0, 0, boss_height - drill_depth])
+            cylinder(d = diam_drill, h = drill_depth + 0.1, center = false);
     }
 }

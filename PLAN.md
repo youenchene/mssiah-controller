@@ -1,201 +1,201 @@
-# Plan — Boîtier MSSIAH Controller (OpenSCAD)
+# Plan — MSSIAH Controller Enclosure (OpenSCAD)
 
-## Objectif
+## Objective
 
-Reproduire le boîtier du contrôleur MSSIAH (https://c64customs.blogspot.com/2021/08/custom-diy-mssiah-controller.html) pour piloter le C64 via le port CB8 (https://mssiah.com/mssiah.php). Le boîtier est imprimé en 3D, conçu en OpenSCAD, et se monte autour de l'électronique déjà assemblée.
+Reproduce the MSSIAH controller enclosure (https://c64customs.blogspot.com/2021/08/custom-diy-mssiah-controller.html) to control the C64 via the CB8 port (https://mssiah.com/mssiah.php). The enclosure is 3D printed, designed in OpenSCAD, and assembled around the pre-existing electronics.
 
-## Décisions de conception
+## Design Decisions
 
-### Boîtier
+### Enclosure
 
-| Paramètre | Valeur |
+| Parameter | Value |
 |---|---|
-| Architecture | 2 moitiés : bac (bas) + couvercle (haut) |
-| Split | Horizontal, plan de jonction au niveau du rebord |
-| Dimensions extérieures | 120 × 160 mm (largeur × profondeur) |
-| Hauteur avant (bas de pente) | 25 mm |
-| Hauteur arrière (haut de pente) | 83 mm (25 + 160·tan 20°) |
-| Angle d'inclinaison | 20°, arrière haut, avant bas |
-| Épaisseur parois | 2.5 mm |
-| Épaisseur base du bac | 2.5 mm |
-| Aération | Aucune (électronique passive) |
+| Architecture | 2 halves: bottom (lower) + cover (upper) |
+| Split | Horizontal, junction plane at the rim |
+| External dimensions | 120 × 160 mm (width × depth) |
+| Front height (bottom of slope) | 25 mm |
+| Back height (top of slope) | 83 mm (25 + 160·tan 20°) |
+| Slope angle | 20°, back high, front low |
+| Wall thickness | 2.5 mm |
+| Bottom base thickness | 2.5 mm |
+| Ventilation | None (passive electronics) |
 
-### Assemblage des deux moitiés
+### Assembly of the Two Halves
 
-| Paramètre | Valeur |
+| Parameter | Value |
 |---|---|
-| Mécanisme | Lèvre mâle sur le bac + rainure femelle dans le couvercle |
-| Lèvre mâle (bac) | 2 mm d'épaisseur, 3 mm de haut |
-| Rainure (couvercle) | 2.2 mm de large, 3.2 mm de profondeur |
-| Jeu radial | 0.2 mm |
-| Jeu axial | 0.2 mm |
-| Chanfrein d'entrée de rainure | 0.5 mm × 45° |
-| Fixation | 4 inserts M3 (Ø 5 ext, long. 4 mm) dans les boss du bac |
-| Vis d'assemblage | M3 × 10 mm (×4) |
-| Perçage traversant dans le rebord du couvercle | Ø 3.2 mm |
+| Mechanism | Male lip on the bottom + female groove in the cover |
+| Male lip (bottom) | 2 mm thick, 3 mm high |
+| Groove (cover) | 2.2 mm wide, 3.2 mm deep |
+| Radial clearance | 0.2 mm |
+| Axial clearance | 0.2 mm |
+| Groove entry chamfer | 0.5 mm × 45° |
+| Fixation | 4 M3 inserts (Ø 5 ext, length 4 mm) in the bottom bosses |
+| Assembly screws | M3 × 10 mm (×4) |
+| Through-hole in cover rim | Ø 3.2 mm |
 
-### Disposition des contrôles (face inclinée)
+### Control Layout (sloped face)
 
-Repère : origine au coin bas-gauche (avant-gauche vu de l'opérateur). X = largeur (0–120), Y = longueur le long de la pente (0–~170).
+Coordinate system: origin at bottom-left corner (front-left as seen by operator). X = width (0–120), Y = length along the slope (0–~170).
 
-| Contrôle | X (mm) | Y (mm) | Rangée |
+| Control | X (mm) | Y (mm) | Row |
 |---|---|---|---|
-| Joystick | 30 | 130 | 1 (arrière) |
-| Bouton arcade | 90 | 130 | 1 (arrière) |
-| Potentiomètre P1 | 38.5 | 85 | 2 (médiane) |
-| Potentiomètre P2 | 81.5 | 85 | 2 (médiane) |
-| Potentiomètre P3 | 38.5 | 40 | 3 (avant) |
-| Potentiomètre P4 | 81.5 | 40 | 3 (avant) |
+| Joystick | 30 | 130 | 1 (back) |
+| Arcade button | 90 | 130 | 1 (back) |
+| Potentiometer P1 | 38.5 | 85 | 2 (middle) |
+| Potentiometer P2 | 81.5 | 85 | 2 (middle) |
+| Potentiometer P3 | 38.5 | 40 | 3 (front) |
+| Potentiometer P4 | 81.5 | 40 | 3 (front) |
 
 ```
         0     30      38.5   81.5    90      120
         │     │        │      │       │       │
-  170 ──┼─────────────────────────────────────┼── arrière
+  170 ──┼─────────────────────────────────────┼── back
         │     │        │      │       │       │
-        │  [JOY]      │      │    [BTN]      │  rangée 1
+        │  [JOY]      │      │    [BTN]      │  row 1
         │     │        │      │       │       │
-  85  ──┼─────┤       [P1]  [P2]     ├───────┼── rangée 2
+   85 ──┼─────┤       [P1]  [P2]     ├───────┼── row 2
         │     │        │      │       │       │
-  40  ──┼─────┤       [P3]  [P4]     ├───────┼── rangée 3
+   40 ──┼─────┤       [P3]  [P4]     ├───────┼── row 3
         │     │        │      │       │       │
-   0  ──┼─────────────────────────────────────┼── avant
+    0 ──┼─────────────────────────────────────┼── front
 ```
 
-### Montage des composants
+### Component Mounting
 
-#### Potentiomètres (×4)
+#### Potentiometers (×4)
 
-| Paramètre | Valeur |
+| Parameter | Value |
 |---|---|
-| Trou de passage (axe Ø 9.7) | Ø 10 mm |
-| Renfort local | Ø 22 mm, épaisseur 4 mm |
-| Logement hexagonal (écrou noyé) | 14 mm across-flats, profondeur 4 mm |
-| Écrou | M6 fourni (13.85 mm across-flats) |
-| Rondelle décorative extérieure | Ø 41 mm |
-| Rondelle intérieure | Ø 10 int / 15 ext |
-| Bouton (knob) | Ø 26.5 mm, à visser |
-| Corps | Ø 28 mm, hauteur 12.6 mm sous la face |
-| Fixation | Écrou hex noyé (anti-rotation) + rondelle + écrou extérieur |
+| Pass-through hole (shaft Ø 9.7) | Ø 10 mm |
+| Local reinforcement | Ø 22 mm, thickness 4 mm |
+| Hexagonal socket (embedded nut) | 14 mm across-flats, depth 4 mm |
+| Nut | M6 supplied (13.85 mm across-flats) |
+| Decorative outer washer | Ø 41 mm |
+| Inner washer | Ø 10 int / 15 ext |
+| Knob | Ø 26.5 mm, screw-on |
+| Body | Ø 28 mm, height 12.6 mm under the face |
+| Fixation | Embedded hex nut (anti-rotation) + washer + external nut |
 
 #### Joystick (×1)
 
-| Paramètre | Valeur |
+| Parameter | Value |
 |---|---|
-| Trou de passage (cap + base) | Ø 32 mm |
-| Renfort local | 45 × 45 mm, épaisseur 6 mm |
-| Entraxe inserts | 35 × 35 mm |
-| Inserts | M2.5, laiton, Ø 3.5 ext, long. 4 mm (à acheter) |
-| Perçage plastique | Ø 3.0 mm, profondeur 5 mm |
-| Vis | M2.5 × 8 mm (×4) |
+| Pass-through hole (cap + base) | Ø 32 mm |
+| Local reinforcement | 45 × 45 mm, thickness 6 mm |
+| Insert spacing | 35 × 35 mm |
+| Inserts | M2.5, brass, Ø 3.5 ext, length 4 mm (to purchase) |
+| Plastic drilling | Ø 3.0 mm, depth 5 mm |
+| Screws | M2.5 × 8 mm (×4) |
 | Cap | Ø 15 mm |
-| PCB | 34 × 34 mm, 4 trous Ø 2.5 mm |
+| PCB | 34 × 34 mm, 4 holes Ø 2.5 mm |
 
-#### Bouton arcade Sanwa OBSF-30 (×1)
+#### Arcade Button Sanwa OBSF-30 (×1)
 
-| Paramètre | Valeur |
+| Parameter | Value |
 |---|---|
-| Trou de passage | Ø 30 mm |
-| Épaisseur face (pas de renfort) | 2.5 mm |
-| Fixation | Snap-in (sans vis, collet à ressort) |
-| Collet | Ø 33 mm |
-| Profondeur sous la face | ~40 mm |
-| Hauteur disponible à Y=130 | ~64 mm → OK |
+| Pass-through hole | Ø 30 mm |
+| Face thickness (no reinforcement) | 2.5 mm |
+| Fixation | Snap-in (screwless, spring-loaded collar) |
+| Collar | Ø 33 mm |
+| Depth under the face | ~40 mm |
+| Available height at Y=130 | ~64 mm → OK |
 
 #### DB9 (×1)
 
-| Paramètre | Valeur |
+| Parameter | Value |
 |---|---|
-| Face | Arrière (verticale) |
-| Position | X=60 mm (centré), Y=20 mm depuis le bas |
-| Découpe | 32 × 15 mm (rectangle) |
-| Inserts | M3, laiton, Ø 5 ext, long. 4 mm (×2) |
-| Entraxe inserts | ~25 mm |
-| Perçage plastique | Ø 4.0 mm, profondeur 5 mm |
-| Vis | M3 × 8 mm (×2) |
-| Renfort local face arrière | 45 × 20 mm, épaisseur 6 mm |
+| Face | Back (vertical) |
+| Position | X=60 mm (centered), Y=20 mm from bottom |
+| Cutout | 32 × 15 mm (rectangle) |
+| Inserts | M3, brass, Ø 5 ext, length 4 mm (×2) |
+| Insert spacing | ~25 mm |
+| Plastic drilling | Ø 4.0 mm, depth 5 mm |
+| Screws | M3 × 8 mm (×2) |
+| Local reinforcement (back face) | 45 × 20 mm, thickness 6 mm |
 
-### Structure du bac (moitié du bas)
+### Bottom Structure (lower half)
 
-| Paramètre | Valeur |
+| Parameter | Value |
 |---|---|
-| Base | 120 × 160 mm, épaisseur 2.5 mm |
-| Parois | 4 parois verticales, épaisseur 2.5 mm |
-| Boss de fixation | 4 piliers Ø 10 mm aux coins, inserts M3 |
-| Position des boss | ~10 mm des bords |
-| Patins de pied | 4 × Ø 11 mm (adhésifs, sous la base) |
-| Nervures de rigidification | 2 diagonales sur la base |
-| Structure interne | Vide (les composants sont portés par le couvercle) |
+| Base | 120 × 160 mm, thickness 2.5 mm |
+| Walls | 4 vertical walls, thickness 2.5 mm |
+| Fixation bosses | 4 pillars Ø 10 mm at corners, M3 inserts |
+| Boss position | ~10 mm from edges |
+| Foot pads | 4 × Ø 11 mm (adhesive, under the base) |
+| Stiffening ribs | 2 diagonals on the base |
+| Internal structure | Empty (components are carried by the cover) |
 
-### Structure du couvercle (moitié du haut)
+### Cover Structure (upper half)
 
-| Paramètre | Valeur |
+| Parameter | Value |
 |---|---|
-| Face inclinée | Plan à 20°, 120 × ~170 mm |
-| Parois | 4 parois verticales (avant 25 mm, arrière 83 mm, 2 latérales trapézoïdales) |
-| Renforts locaux | Aux emplacements des composants (voir ci-dessus) |
-| Passe-câbles | 3 arches imprimées sur la face intérieure |
-| Rainure périphérique | 2.2 × 3.2 mm, chanfrein 0.5 × 45° |
+| Sloped face | Plane at 20°, 120 × ~170 mm |
+| Walls | 4 vertical walls (front 25 mm, back 83 mm, 2 trapezoidal sides) |
+| Local reinforcements | At component locations (see above) |
+| Cable guides | 3 arches printed on the inner face |
+| Peripheral groove | 2.2 × 3.2 mm, chamfer 0.5 × 45° |
 
-### Passe-câbles (×3)
+### Cable Guides (×3)
 
-Positionnés sur la face intérieure du couvercle pour guider les câbles vers le DB9 (arrière) :
-- Passe-câble 1 : entre rangée 1 et DB9 (guide câbles joystick + bouton)
-- Passe-câble 2 : entre rangée 2 et rangée 1 (guide câbles P1/P2)
-- Passe-câble 3 : entre rangée 3 et rangée 2 (guide câbles P3/P4)
+Positioned on the inner face of the cover to guide cables toward the DB9 (back):
+- Cable guide 1: between row 1 and DB9 (guides joystick + button cables)
+- Cable guide 2: between row 2 and row 1 (guides P1/P2 cables)
+- Cable guide 3: between row 3 and row 2 (guides P3/P4 cables)
 
-Arches de ~5 mm de haut, câbles passent dessous.
+Arches ~5 mm high, cables pass underneath.
 
-## Inventaire des fixations
+## Fasteners Inventory
 
-| Usage | Insert | Vis | Quantité |
+| Use | Insert | Screw | Quantity |
 |---|---|---|---|
-| Joystick | M2.5, Ø 3.5 ext, long. 4 mm | M2.5 × 8 mm | 4 |
-| DB9 | M3, Ø 5 ext, long. 4 mm | M3 × 8 mm | 2 |
-| Assemblage bac/couvercle | M3, Ø 5 ext, long. 4 mm | M3 × 10 mm | 4 |
-| Potentiomètres | Aucun (écrou M6 fourni) | Écrou M6 fourni | 4 |
-| Bouton arcade | Aucun (snap-in) | — | — |
-| Patins de pied | Aucun | Adhésif | 4 |
+| Joystick | M2.5, Ø 3.5 ext, length 4 mm | M2.5 × 8 mm | 4 |
+| DB9 | M3, Ø 5 ext, length 4 mm | M3 × 8 mm | 2 |
+| Bottom/cover assembly | M3, Ø 5 ext, length 4 mm | M3 × 10 mm | 4 |
+| Potentiometers | None (M6 nut supplied) | M6 nut supplied | 4 |
+| Arcade button | None (snap-in) | — | — |
+| Foot pads | None | Adhesive | 4 |
 
-**Total inserts à acheter** : 4 × M2.5 (Ø 4 ext, long. 4 mm)
-**Total vis** : 4 × M2.5×8, 2 × M3×8, 4 × M3×10
+**Total inserts to purchase**: 4 × M2.5 (Ø 4 ext, length 4 mm)
+**Total screws**: 4 × M2.5×8, 2 × M3×8, 4 × M3×10
 
-## Structure du projet OpenSCAD
+## OpenSCAD Project Structure
 
 ```
 mssiah-controller/
-├── CONTEXT.md              # Glossaire (terminologie du projet)
-├── PLAN.md                 # Ce fichier
-├── main.scad               # Assemblage complet (vue 3D)
-├── bac.scad                # Moitié du bas (bac)
-├── couvercle.scad          # Moitié du haut (couvercle + face inclinée)
+├── CONTEXT.md              # Glossary (project terminology)
+├── PLAN.md                 # This file
+├── main.scad               # Full assembly (3D view)
+├── bottom.scad             # Lower half (bottom)
+├── cover.scad              # Upper half (cover + sloped face)
 ├── lib/
-│   ├── dimensions.scad    # Toutes les variables dimensionnelles
-│   ├── inserts.scad        # Modules d'inserts à chaud (modèles)
-│   ├── composants.scad    # Modules de perçages/trous pour chaque composant
-│   └── passe_cables.scad   # Modules de passes-câbles
-└── stl/                    # Fichiers STL exportés (générés)
-    ├── bac.stl
-    └── couvercle.stl
+│   ├── dimensions.scad    # All dimensional variables
+│   ├── inserts.scad        # Heat-set insert modules (models)
+│   ├── components.scad    # Drill/cutout modules for each component
+│   └── cable_guides.scad   # Cable guide modules
+└── stl/                    # Exported STL files (generated)
+    ├── bottom.stl
+    └── cover.stl
 ```
 
-## Ordre de réalisation
+## Build Order
 
-1. **`lib/dimensions.scad`** : Toutes les variables (dimensions, positions, angles)
-2. **`lib/inserts.scad`** : Modules paramétriques d'inserts (trou de perçage + logement)
-3. **`lib/composants.scad`** : Modules de découpe pour chaque composant (pot, joystick, bouton, DB9)
-4. **`lib/passe_cables.scad`** : Module d'arche de passe-câbles
-5. **`couvercle.scad`** : Assemblage de la face inclinée + parois + renforts + découpes + passe-câbles + rainure
-6. **`bac.scad`** : Assemblage de la base + parois + boss + nervures + lèvre + patins
-7. **`main.scad`** : Assemblage des deux moitiés (vue 3D exploded + fermé)
-8. **Export STL** : `bac.stl` et `couvercle.stl`
+1. **`lib/dimensions.scad`** : All variables (dimensions, positions, angles)
+2. **`lib/inserts.scad`** : Parametric insert modules (drill hole + socket)
+3. **`lib/components.scad`** : Cutout modules for each component (pot, joystick, button, DB9)
+4. **`lib/cable_guides.scad`** : Cable guide arch module
+5. **`cover.scad`** : Assembly of sloped face + walls + reinforcements + cutouts + cable guides + groove
+6. **`bottom.scad`** : Assembly of base + walls + bosses + ribs + lip + feet
+7. **`main.scad`** : Assembly of both halves (exploded + closed 3D view)
+8. **STL export** : `bottom.stl` and `cover.stl`
 
-## Vues de référence
+## Reference Views
 
-### Vue de profil (depuis la droite)
+### Side Profile (from the right)
 
 ```
-        arrière                    avant
-       83mm                       25mm
+        back                      front
+       83mm                      25mm
 
    83mm ┌─╲
         │   ╲
@@ -216,23 +216,23 @@ mssiah-controller/
         ←──────────── 160 mm ──────────────→
 ```
 
-### Vue du plan incliné (disposition des contrôles)
+### Sloped Plane View (control layout)
 
 ```
         ←──────── 120 mm ────────→
    ┌──────────────────────────────────┐
-   │                                  │  ← arrière (haut de pente)
-   │   [JOY]                  [BTN]   │   rangée 1
+   │                                  │  ← back (top of slope)
+   │   [JOY]                  [BTN]   │   row 1
    │                                  │
-   │          [P1]      [P2]         │   rangée 2
+   │          [P1]      [P2]         │   row 2
    │                                  │
-   │          [P3]      [P4]          │   rangée 3
-   │                                  │  ← avant (bas de pente)
+   │          [P3]      [P4]          │   row 3
+   │                                  │  ← front (bottom of slope)
    └──────────────────────────────────┘
    ←────────── ~170 mm ──────────────→
 ```
 
-### Vue arrière (DB9)
+### Back View (DB9)
 
 ```
         ←──────── 120 mm ────────→
@@ -243,6 +243,6 @@ mssiah-controller/
         │      ┌────────┐          │
    20mm │      │  DB9   │          │
         │      └────────┘          │
-        │  ◯               ◯       │  ← inserts M3
+        │  ◯               ◯       │  ← M3 inserts
         └──────────────────────────┘
 ```
