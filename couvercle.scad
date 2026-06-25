@@ -72,29 +72,43 @@ module couvercle_face_inclinee() {
 }
 
 // -----------------------------------------------------------------------------
-// Passe-câbles (côté intérieur)
+// Passe-câbles — 3 arches sur la face inclinée (décalées côté joystick)
 // -----------------------------------------------------------------------------
 module passe_cable_plate() {
     difference() {
-        translate([-PASSE_CABLE_LARGEUR/2, -PASSE_CABLE_LARGEUR/2,
-                   -PASSE_CABLE_HAUTEUR])
-            cube([PASSE_CABLE_LARGEUR, PASSE_CABLE_LARGEUR,
-                  PASSE_CABLE_HAUTEUR]);
+        translate([-PASSE_CABLE_LARGEUR/2, -PASSE_CABLE_LARGEUR/2, -PASSE_CABLE_HAUTEUR])
+            cube([PASSE_CABLE_LARGEUR, PASSE_CABLE_LARGEUR, PASSE_CABLE_HAUTEUR]);
         translate([-PASSE_CABLE_LARGEUR/2 + PASSE_CABLE_EPAISSEUR,
-                   -PASSE_CABLE_LARGEUR/2 - 0.1,
-                   -PASSE_CABLE_HAUTEUR])
+                   -PASSE_CABLE_LARGEUR/2 - 0.1, -PASSE_CABLE_HAUTEUR])
             cube([PASSE_CABLE_LARGEUR - 2*PASSE_CABLE_EPAISSEUR,
                   PASSE_CABLE_LARGEUR + 0.2,
                   PASSE_CABLE_HAUTEUR - PASSE_CABLE_EPAISSEUR]);
     }
 }
 
-module couvercle_passe_cables() {
-    for (y = PASSE_CABLE_POSITIONS_Y) {
+module couvercle_passe_cables_face() {
+    // Seulement les 2 guides les plus proches du haut
+    for (y = [PASSE_CABLE_POSITIONS_Y[0], PASSE_CABLE_POSITIONS_Y[1]]) {
         translate([0, 0, h_av])
             rotate([ANGLE_PENTE, 0, 0])
                 translate([LARGEUR/2, y, 0])
                     passe_cable_plate();
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Passe-câbles — 2 arches orientées vers l'avant de chaque côté du DB9
+// -----------------------------------------------------------------------------
+module couvercle_passe_cables_db9() {
+    z = DB9_POSITION_Z_COUVERCLE;
+    y_wall = PROFONDEUR;  // face extérieure
+
+    offsets = [30, -30];
+
+    for (dx = offsets) {
+        translate([DB9_POSITION_X + dx, y_wall, z])
+            rotate([-90, 0, 0])
+                passe_cable_plate();
     }
 }
 
@@ -300,9 +314,10 @@ module couvercle() {
             couvercle_paroi_gauche();
             couvercle_paroi_droite();
             couvercle_face_inclinee();
-            couvercle_passe_cables();
+            couvercle_passe_cables_face();
             couvercle_boss();
             couvercle_db9_renfort();
+            couvercle_passe_cables_db9();
             couvercle_renforts_boss_parois();
             couvercle_ergots_alignement();
         }
