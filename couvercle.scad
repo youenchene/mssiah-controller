@@ -244,7 +244,7 @@ module couvercle_db9_renfort() {
 module couvercle_renforts_boss_parois() {
     bx = BOSS_MARGE_BORD;                        // 10
     by = PROFONDEUR - BOSS_MARGE_BORD;           // 150
-    zh = z_incline(PROFONDEUR - t);              // hauteur au coin arrière
+    zh = z_incline(by);                          // hauteur au boss (plan incliné)
 
     // Bloc massif remplissant tout le coin arrière-gauche
     translate([t, by - BOSS_DIAMETRE/2, 0])
