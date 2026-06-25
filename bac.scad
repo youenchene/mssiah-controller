@@ -1,84 +1,11 @@
 // =============================================================================
-// bac.scad — Moitié du bas (rectangle droit, ouvert en haut)
+// bac.scad — Plaque de base plate
 // =============================================================================
-// Bac 120×160×25 mm, ouvert sur le dessus.
-// Contient : base + 4 parois + lèvre mâle + 2 nervures + patins
-//           + trous traversants dans la base.
-//
-// FIX : les trous d'assemblage sont dans la BASE du bac (par le bas),
-//       les boss sont sur le couvercle.
+// Plaque 120×160×2.5 mm. Le couvercle fait tout le reste.
 
 include <lib/dimensions.scad>
 
 t = EPAISSEUR_PAROI;
-
-// -----------------------------------------------------------------------------
-// Volume brut (boîte ouverte en haut)
-// -----------------------------------------------------------------------------
-module bac_volume_brut() {
-    difference() {
-        cube([LARGEUR, PROFONDEUR, HAUTEUR_BAC]);
-        translate([t, t, EPAISSEUR_BASE])
-            cube([LARGEUR - 2*t, PROFONDEUR - 2*t, HAUTEUR_BAC]);
-    }
-}
-
-// -----------------------------------------------------------------------------
-// Lèvre mâle périphérique
-// -----------------------------------------------------------------------------
-module bac_levre_male() {
-    le = LEVRE_EPAISSEUR;
-    lh = LEVRE_HAUTEUR;
-    z_bas = HAUTEUR_BAC - lh;
-
-    // Barres horizontales (avant / arrière) — tronquées pour éviter l'overlap
-    translate([t + le, t, z_bas])
-        cube([LARGEUR - 2*t - 2*le, le, lh]);
-    translate([t + le, PROFONDEUR - t - le, z_bas])
-        cube([LARGEUR - 2*t - 2*le, le, lh]);
-    // Barres verticales (gauche / droite)
-    translate([t, t, z_bas])
-        cube([le, PROFONDEUR - 2*t, lh]);
-    translate([LARGEUR - t - le, t, z_bas])
-        cube([le, PROFONDEUR - 2*t, lh]);
-}
-
-// -----------------------------------------------------------------------------
-// Nervures de rigidification
-// -----------------------------------------------------------------------------
-module bac_nervures() {
-    // Dimensions intérieures (entre les parois)
-    il = LARGEUR - 2*t;
-    ip = PROFONDEUR - 2*t;
-    longueur = sqrt(il^2 + ip^2);
-    angle = atan2(ip, il);
-    m = BOSS_MARGE_BORD;
-
-    difference() {
-        union() {
-            // Nervure 1 : avant-gauche → arrière-droit
-            translate([t, t, EPAISSEUR_BASE])
-                rotate([0, 0, angle])
-                    translate([0, -NERVURE_LARGEUR/2, 0])
-                        cube([longueur, NERVURE_LARGEUR, NERVURE_HAUTEUR]);
-
-            // Nervure 2 : avant-droit → arrière-gauche
-            translate([LARGEUR - t, t, EPAISSEUR_BASE])
-                rotate([0, 0, -angle])
-                    translate([-longueur, -NERVURE_LARGEUR/2, 0])
-                        cube([longueur, NERVURE_LARGEUR, NERVURE_HAUTEUR]);
-        }
-        // Dégager les 4 coins (autour des trous de vis)
-        positions = [
-            [m, m], [LARGEUR - m, m],
-            [m, PROFONDEUR - m], [LARGEUR - m, PROFONDEUR - m],
-        ];
-        for (pos = positions) {
-            translate([pos[0], pos[1], EPAISSEUR_BASE - 0.1])
-                cylinder(d = BOSS_DIAMETRE + 2, h = NERVURE_HAUTEUR + 0.2);
-        }
-    }
-}
 
 // -----------------------------------------------------------------------------
 // Empreintes de patins (détourage sous la base)
@@ -96,9 +23,7 @@ module bac_empreintes_patins() {
 }
 
 // -----------------------------------------------------------------------------
-// FIX : Trous traversants dans la base (pour vis d'assemblage par le bas)
-// Les vis passent par le bas, traversent la base, et vont dans les boss
-// du couvercle qui descendent à l'intérieur du bac.
+// Trous traversants + fraisure pour vis d'assemblage M3
 // -----------------------------------------------------------------------------
 module bac_trous_vis_assemblage() {
     m = BOSS_MARGE_BORD;
@@ -117,17 +42,28 @@ module bac_trous_vis_assemblage() {
 }
 
 // -----------------------------------------------------------------------------
-// Bac complet
+// Trous d'alignement pour les ergots du couvercle
+// -----------------------------------------------------------------------------
+module bac_trous_alignement() {
+    d = 3.2;  // diamètre trou (jeu 0.2 mm sur ergot Ø 3)
+
+    // Avant (centre paroi)
+    translate([30, t/2, -0.1])
+        cylinder(d = d, h = EPAISSEUR_BASE + 0.2);
+    // Arrière (centre paroi)
+    translate([LARGEUR - 30, PROFONDEUR - t/2, -0.1])
+        cylinder(d = d, h = EPAISSEUR_BASE + 0.2);
+}
+
+// -----------------------------------------------------------------------------
+// Bac complet (plaque plate)
 // -----------------------------------------------------------------------------
 module bac() {
     difference() {
-        union() {
-            bac_volume_brut();
-            bac_levre_male();
-            bac_nervures();
-        }
+        cube([LARGEUR, PROFONDEUR, EPAISSEUR_BASE]);
         bac_empreintes_patins();
         bac_trous_vis_assemblage();
+        bac_trous_alignement();
     }
 }
 

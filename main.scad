@@ -28,7 +28,7 @@ module assemblage() {
 
     if (SHOW_COUVERCLE) {
         color("lightblue", 0.9)
-            translate([0, 0, HAUTEUR_BAC + decalage_explode])
+            translate([0, 0, EPAISSEUR_BASE + decalage_explode])
                 couvercle();
     }
 }

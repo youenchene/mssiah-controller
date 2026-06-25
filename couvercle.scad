@@ -1,5 +1,5 @@
 // =============================================================================
-// couvercle.scad — Moitié du haut (coin trapézoïdal avec face inclinée)
+// couvercle.scad — Corps principal avec face inclinée et parois pleine hauteur
 // =============================================================================
 // FIX :
 // 1. Bosses reliées au plan incliné par renforts verticaux
@@ -202,19 +202,6 @@ module couvercle_paroi_droite() {
 }
 
 // -----------------------------------------------------------------------------
-// Rainure périphérique (dans le rim)
-// -----------------------------------------------------------------------------
-module couvercle_rainure() {
-    rl = RAINURE_LARGEUR;
-    rp = RAINURE_PROFONDEUR;
-
-    translate([t, t, 0])                       cube([LARGEUR - 2*t, rl, rp]);
-    translate([t, PROFONDEUR - t - rl, 0])      cube([LARGEUR - 2*t, rl, rp]);
-    translate([t, t, 0])                        cube([rl, PROFONDEUR - 2*t, rp]);
-    translate([LARGEUR - t - rl, t, 0])         cube([rl, PROFONDEUR - 2*t, rp]);
-}
-
-// -----------------------------------------------------------------------------
 // Découpe DB9 sur la face arrière du couvercle
 // -----------------------------------------------------------------------------
 module couvercle_db9_decoupe() {
@@ -265,12 +252,49 @@ module couvercle_renforts_boss_parois() {
 }
 
 // -----------------------------------------------------------------------------
+// Ergots d'alignement (dépassent sous les parois basses)
+// -----------------------------------------------------------------------------
+module couvercle_ergots_alignement() {
+    hb = HAUTEUR_BAC - t;
+    d = 3;   // diamètre ergot
+    h = 3;   // hauteur ergot
+
+    // Avant (centre paroi)
+    translate([30, t/2, -hb - h])
+        cylinder(d = d, h = h);
+    // Arrière (centre paroi)
+    translate([LARGEUR - 30, PROFONDEUR - t/2, -hb - h])
+        cylinder(d = d, h = h);
+}
+
+// -----------------------------------------------------------------------------
+// Parois basses (extension vers le bas jusqu'à la plaque de base)
+// -----------------------------------------------------------------------------
+module couvercle_parois_basses() {
+    hb = HAUTEUR_BAC - t;  // hauteur des murs bas (remplace les parois du bac)
+
+    translate([0, 0, -hb]) {
+        // Avant
+        cube([LARGEUR, t, hb]);
+        // Arrière
+        translate([0, PROFONDEUR - t, 0])
+            cube([LARGEUR, t, hb]);
+        // Gauche
+        cube([t, PROFONDEUR, hb]);
+        // Droite
+        translate([LARGEUR - t, 0, 0])
+            cube([t, PROFONDEUR, hb]);
+    }
+}
+
+// -----------------------------------------------------------------------------
 // Couvercle complet
 // -----------------------------------------------------------------------------
 module couvercle() {
     difference() {
         union() {
             couvercle_rim();
+            couvercle_parois_basses();
             couvercle_paroi_avant();
             couvercle_paroi_arriere();
             couvercle_paroi_gauche();
@@ -280,8 +304,8 @@ module couvercle() {
             couvercle_boss();
             couvercle_db9_renfort();
             couvercle_renforts_boss_parois();
+            couvercle_ergots_alignement();
         }
-        couvercle_rainure();
         couvercle_db9_decoupe();
     }
 }
