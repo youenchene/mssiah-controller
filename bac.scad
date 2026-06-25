@@ -31,30 +31,41 @@ module bac_levre_male() {
     lh = LEVRE_HAUTEUR;
     z_bas = HAUTEUR_BAC - lh;
 
-    translate([t, t, z_bas])                  cube([LARGEUR - 2*t, le, lh]);
-    translate([t, PROFONDEUR - t - le, z_bas]) cube([LARGEUR - 2*t, le, lh]);
-    translate([t, t, z_bas])                   cube([le, PROFONDEUR - 2*t, lh]);
-    translate([LARGEUR - t - le, t, z_bas])    cube([le, PROFONDEUR - 2*t, lh]);
+    // Barres horizontales (avant / arrière) — tronquées pour éviter l'overlap
+    translate([t + le, t, z_bas])
+        cube([LARGEUR - 2*t - 2*le, le, lh]);
+    translate([t + le, PROFONDEUR - t - le, z_bas])
+        cube([LARGEUR - 2*t - 2*le, le, lh]);
+    // Barres verticales (gauche / droite)
+    translate([t, t, z_bas])
+        cube([le, PROFONDEUR - 2*t, lh]);
+    translate([LARGEUR - t - le, t, z_bas])
+        cube([le, PROFONDEUR - 2*t, lh]);
 }
 
 // -----------------------------------------------------------------------------
 // Nervures de rigidification
 // -----------------------------------------------------------------------------
 module bac_nervures() {
-    longueur = sqrt(LARGEUR^2 + PROFONDEUR^2);
-    angle = atan2(PROFONDEUR, LARGEUR);
+    // Dimensions intérieures (entre les parois)
+    il = LARGEUR - 2*t;
+    ip = PROFONDEUR - 2*t;
+    longueur = sqrt(il^2 + ip^2);
+    angle = atan2(ip, il);
     m = BOSS_MARGE_BORD;
 
     difference() {
         union() {
-            translate([0, 0, EPAISSEUR_BASE])
+            // Nervure 1 : avant-gauche → arrière-droit
+            translate([t, t, EPAISSEUR_BASE])
                 rotate([0, 0, angle])
                     translate([0, -NERVURE_LARGEUR/2, 0])
                         cube([longueur, NERVURE_LARGEUR, NERVURE_HAUTEUR]);
 
-            translate([0, PROFONDEUR, EPAISSEUR_BASE])
+            // Nervure 2 : avant-droit → arrière-gauche
+            translate([LARGEUR - t, t, EPAISSEUR_BASE])
                 rotate([0, 0, -angle])
-                    translate([0, -NERVURE_LARGEUR/2, 0])
+                    translate([-longueur, -NERVURE_LARGEUR/2, 0])
                         cube([longueur, NERVURE_LARGEUR, NERVURE_HAUTEUR]);
         }
         // Dégager les 4 coins (autour des trous de vis)

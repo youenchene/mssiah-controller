@@ -116,19 +116,27 @@ module couvercle_boss() {
         // Hauteur du plan incliné à cette position Y
         z_top = z_incline(pos[1]);
 
+        // Position joystick en world-Y (corrigée de la rotation)
+        jy = JOY_POSITION[1] * cos(ANGLE_PENTE);
+
         difference() {
             union() {
                 // Pilier qui descend dans le bac (z=0 → z=-hauteur_boss)
                 translate([pos[0], pos[1], -hauteur_boss])
                     cylinder(d = BOSS_DIAMETRE, h = hauteur_boss + t);
 
-                // FIX : Renfort vertical du rim (z=0) jusqu'au plan incliné (z=z_top)
+                // Cône de renfort (base large en haut, arrêté avant la face)
                 translate([pos[0], pos[1], 0])
-                    cylinder(d = BOSS_DIAMETRE, h = z_top);
+                    cylinder(d1 = BOSS_DIAMETRE, d2 = BOSS_DIAMETRE + 4, h = z_top - t);
             }
             // Trou d'insert au BAS du boss (côté bac)
             translate([pos[0], pos[1], -hauteur_boss - 0.1])
                 cylinder(d = insert_d, h = insert_h + 0.1);
+            // Dégager la zone de fixation du joystick
+            translate([JOY_POSITION[0] - JOY_RENFORT_TAILLE/2 - 5,
+                       jy - JOY_RENFORT_TAILLE/2 - 5,
+                       -1])
+                cube([JOY_RENFORT_TAILLE + 10, JOY_RENFORT_TAILLE + 10, h_ar + 2]);
         }
     }
 }
@@ -242,6 +250,19 @@ module couvercle_db9_renfort() {
 }
 
 // -----------------------------------------------------------------------------
+// Renforts boss arrière-gauche → parois (près du joystick)
+// -----------------------------------------------------------------------------
+module couvercle_renforts_boss_parois() {
+    bx = BOSS_MARGE_BORD;                        // 10
+    by = PROFONDEUR - BOSS_MARGE_BORD;           // 150
+    zh = z_incline(PROFONDEUR - t);              // hauteur au coin arrière
+
+    // Bloc massif remplissant tout le coin arrière-gauche
+    translate([t, by - BOSS_DIAMETRE/2, 0])
+        cube([bx + BOSS_DIAMETRE/2 - t, PROFONDEUR - t - (by - BOSS_DIAMETRE/2), zh]);
+}
+
+// -----------------------------------------------------------------------------
 // Couvercle complet
 // -----------------------------------------------------------------------------
 module couvercle() {
@@ -256,6 +277,7 @@ module couvercle() {
             couvercle_passe_cables();
             couvercle_boss();
             couvercle_db9_renfort();
+            couvercle_renforts_boss_parois();
         }
         couvercle_rainure();
         couvercle_db9_decoupe();
