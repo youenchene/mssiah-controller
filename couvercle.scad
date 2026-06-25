@@ -25,12 +25,6 @@ module face_inclinee_plate() {
         union() {
             cube([LARGEUR, LONGUEUR_PENTE, t]);
 
-            // Renforts pots (côté intérieur, z < 0)
-            for (pos = POT_POSITIONS) {
-                translate([pos[0], pos[1], -(POT_RENFORT_EPAISSEUR - t)])
-                    cylinder(d = POT_RENFORT_DIAMETRE,
-                             h = POT_RENFORT_EPAISSEUR - t);
-            }
             // Renfort joystick (côté intérieur)
             translate([JOY_POSITION[0], JOY_POSITION[1], -(JOY_RENFORT_EPAISSEUR - t)])
                 translate([-JOY_RENFORT_TAILLE/2, -JOY_RENFORT_TAILLE/2, 0])
@@ -38,13 +32,10 @@ module face_inclinee_plate() {
                           JOY_RENFORT_EPAISSEUR - t]);
         }
 
-        // Pots — trou traversant + logement hex CÔTÉ INTÉRIEUR (caché)
+        // Pots — trous traversants (face plate)
         for (pos = POT_POSITIONS) {
             translate([pos[0], pos[1], -10])
                 cylinder(d = POT_TROU_DIAMETRE, h = 100);
-            translate([pos[0], pos[1], -POT_ECROU_PROFONDEUR - 0.1])
-                cylinder(d = POT_LOGEMENT_HEX_AF * 2 / sqrt(3),
-                         h = POT_ECROU_PROFONDEUR + 0.1, $fn = 6);
         }
 
         // Joystick — trou traversant
