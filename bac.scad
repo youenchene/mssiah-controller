@@ -73,7 +73,7 @@ module bac_nervures() {
 // Empreintes de patins (détourage sous la base)
 // -----------------------------------------------------------------------------
 module bac_empreintes_patins() {
-    m = BOSS_MARGE_BORD;
+    m = PATIN_MARGE_BORD;
     positions = [
         [m, m], [LARGEUR - m, m],
         [m, PROFONDEUR - m], [LARGEUR - m, PROFONDEUR - m],
@@ -96,8 +96,12 @@ module bac_trous_vis_assemblage() {
         [m, PROFONDEUR - m], [LARGEUR - m, PROFONDEUR - m],
     ];
     for (pos = positions) {
+        // Trou traversant pour vis M3
         translate([pos[0], pos[1], -0.1])
             cylinder(d = 3.6, h = EPAISSEUR_BASE + 0.2);
+        // Fraisure conique pour tête fraisée (côté bas)
+        translate([pos[0], pos[1], -0.1])
+            cylinder(d1 = 7, d2 = 3.6, h = 2);
     }
 }
 

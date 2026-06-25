@@ -61,7 +61,8 @@ BOSS_MARGE_BORD  = 10;    // distance du bord
 // Patins de pied
 // -----------------------------------------------------------------------------
 PATIN_DIAMETRE   = 11;    // diamètre des patins adhésifs
-PATIN_PROFONDEUR = 2;     // profondeur du détourage (optionnel)
+PATIN_PROFONDEUR = 0.5;   // profondeur du détourage (guide surfacique)
+PATIN_MARGE_BORD = 25;    // distance du bord (décalé des vis d'assemblage)
 
 // -----------------------------------------------------------------------------
 // Nervures de rigidification (base du bac)
