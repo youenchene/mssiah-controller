@@ -121,14 +121,16 @@ BTN_DEPTH              = 40;     // depth under the face
 BTN_POSITION           = [90, 110]; // position (sloped face coordinates)
 
 // -----------------------------------------------------------------------------
-// DB9 (×1)
+// DB9 (×N — position array, see DB9_POSITIONS)
 // -----------------------------------------------------------------------------
 DB9_CUTOUT_WIDTH       = 19.20;  // rectangular cutout (width, X)
 DB9_CUTOUT_HEIGHT      = 12;     // rectangular cutout (height, Z)
 DB9_INSERT_SPACING     = 24.5;   // M3 insert spacing (in X, outside cutout)
-DB9_POSITION_X         = 60;     // X position on the back face (centered)
-DB9_POSITION_Z         = 12.5;   // Z position from bottom of base (centered in 25 mm) — obsolete, DB9 moved
-DB9_POSITION_Z_COVER   = 15;     // Z position from bottom of cover
+DB9_POSITIONS = [
+    [60, -8],  // DB9 #1 : bottom row, center
+    [35, 17],  // DB9 #2 : top row, left
+    [85, 17],  // DB9 #3 : top row, right
+];
 DB9_REINFORCE_WIDTH    = 45;     // local reinforcement width
 DB9_REINFORCE_HEIGHT   = 25;     // local reinforcement height
 DB9_REINFORCE_THICKNESS = 6;     // local reinforcement thickness

@@ -114,16 +114,16 @@ module cover_face_cable_guides() {
 }
 
 // -----------------------------------------------------------------------------
-// Cable guides — 2 arches oriented forward on each side of the DB9
+// Cable guides — 2 arches oriented forward on each side of a DB9
+// cx, cz : position on the back face
 // -----------------------------------------------------------------------------
-module cover_db9_cable_guides() {
-    z = DB9_POSITION_Z_COVER;
+module cover_db9_cable_guides(cx, cz) {
     y_wall = DEPTH;  // outer face
 
     offsets = [30, -30];
 
     for (dx = offsets) {
-        translate([DB9_POSITION_X + dx, y_wall, z])
+        translate([cx + dx, y_wall, cz])
             rotate([-90, 0, 0])
                 cable_guide_flat();
     }
@@ -265,10 +265,9 @@ module cover_right_wall() {
 
 // -----------------------------------------------------------------------------
 // DB9 cutout on the back face of the cover
+// cx, cz : position on the back face
 // -----------------------------------------------------------------------------
-module cover_db9_cutout() {
-    cx = DB9_POSITION_X;
-    cz = DB9_POSITION_Z_COVER;
+module cover_db9_cutout(cx, cz) {
     wall_y = DEPTH - t;
 
     // Rectangular cutout for the connector
@@ -287,10 +286,9 @@ module cover_db9_cutout() {
 
 // -----------------------------------------------------------------------------
 // DB9 reinforcement on the back face of the cover (inner side)
+// cx, cz : position on the back face
 // -----------------------------------------------------------------------------
-module cover_db9_reinforcement() {
-    cx = DB9_POSITION_X;
-    cz = DB9_POSITION_Z_COVER;
+module cover_db9_reinforcement(cx, cz) {
     wall_y = DEPTH - t;
 
     translate([cx - DB9_REINFORCE_WIDTH/2,
@@ -364,12 +362,18 @@ module cover() {
             cover_sloped_face();
             cover_face_cable_guides();
             cover_bosses();
-            cover_db9_reinforcement();
-            cover_db9_cable_guides();
+            // DB9(s) on back wall
+            for (pos = DB9_POSITIONS) {
+                cover_db9_reinforcement(pos[0], pos[1]);
+                cover_db9_cable_guides(pos[0], pos[1]);
+            }
             cover_boss_wall_reinforcements();
             cover_alignment_pins();
         }
-        cover_db9_cutout();
+        // DB9 cutout(s) on back wall
+        for (pos = DB9_POSITIONS) {
+            cover_db9_cutout(pos[0], pos[1]);
+        }
     }
 }
 
