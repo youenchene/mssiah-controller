@@ -130,47 +130,78 @@ module cover_db9_cable_guides() {
 }
 
 // -----------------------------------------------------------------------------
-// FIX 1: Boss with vertical reinforcement up to the sloped plane
+// Bosses with enlarged reinforcement cones trimmed flush to the sloped face
 // -----------------------------------------------------------------------------
 module cover_bosses() {
     m = BOSS_EDGE_MARGIN;
     boss_height = BASE_HEIGHT - BASE_THICKNESS;  // 22.5 mm
     insert_d = insert_dims(INSERT_ASSEMBLY_M)[2];
     insert_h = insert_dims(INSERT_ASSEMBLY_M)[3];
+    cone_top_d = BOSS_DIAMETER + 16;  // 26 mm, enlarged for structural connection
 
     positions = [
         [m, m], [WIDTH - m, m],
         [m, DEPTH - m], [WIDTH - m, DEPTH - m],
     ];
 
-    for (pos = positions) {
-        // Height of the sloped plane at this Y position
-        z_top = z_slope(pos[1]);
+    // Outer difference: trim everything above the sloped face inner surface
+    difference() {
+        // All bosses with oversized cones (extend past inner face for overlap)
+        for (pos = positions) {
+            z_top = z_slope(pos[1]);   // inner face height at this Y
+            jy = JOY_POSITION[1] * cos(SLOPE_ANGLE);
 
-        // Joystick position in world-Y (corrected for rotation)
-        jy = JOY_POSITION[1] * cos(SLOPE_ANGLE);
+            difference() {
+                union() {
+                    // Pillar extending down into the base
+                    translate([pos[0], pos[1], -boss_height])
+                        cylinder(d = BOSS_DIAMETER, h = boss_height + t);
 
-        difference() {
-            union() {
-                // Pillar extending down into the base (z=0 → z=-boss_height)
-                translate([pos[0], pos[1], -boss_height])
-                    cylinder(d = BOSS_DIAMETER, h = boss_height + t);
+                    // Enlarged reinforcement cone (except boss near joystick)
+                    if (pos[0] != m || pos[1] != DEPTH - m) {
+                        translate([pos[0], pos[1], 0])
+                            cylinder(d1 = BOSS_DIAMETER,
+                                     d2 = cone_top_d,
+                                     h  = z_top + 2);
+                    }
+                }
 
-                // Reinforcement cone (except boss near joystick)
-                if (pos[0] != m || pos[1] != DEPTH - m) {
-                    translate([pos[0], pos[1], 0])
-                        cylinder(d1 = BOSS_DIAMETER, d2 = BOSS_DIAMETER + 4, h = z_top - t);
+                // Insert hole at the BOTTOM of the boss (base side)
+                translate([pos[0], pos[1], -boss_height - 0.1])
+                    cylinder(d = insert_d, h = insert_h + 0.1);
+
+                // Clear the joystick mounting area
+                if (pos[0] == m && pos[1] == DEPTH - m) {
+                    translate([JOY_POSITION[0] - JOY_REINFORCE_SIZE/2 - 5,
+                               jy - JOY_REINFORCE_SIZE/2 - 5,
+                               -1])
+                        cube([JOY_REINFORCE_SIZE + 10,
+                              JOY_REINFORCE_SIZE + 10,
+                              h_back + 2]);
                 }
             }
-            // Insert hole at the BOTTOM of the boss (base side)
-            translate([pos[0], pos[1], -boss_height - 0.1])
-                cylinder(d = insert_d, h = insert_h + 0.1);
-            // Clear the joystick mounting area
-            translate([JOY_POSITION[0] - JOY_REINFORCE_SIZE/2 - 5,
-                       jy - JOY_REINFORCE_SIZE/2 - 5,
-                       -1])
-                cube([JOY_REINFORCE_SIZE + 10, JOY_REINFORCE_SIZE + 10, h_back + 2]);
         }
+
+        // Trim 1 : cut off anything above the sloped face inner surface.
+        // Inner surface is at z=0 in the flat (rotated) coordinate frame.
+        translate([-1, -1, h_front])
+            rotate([SLOPE_ANGLE, 0, 0])
+                translate([0, 0, 0])
+                    cube([WIDTH + 2, SLOPE_LENGTH + 2, 200]);
+
+        // Trim 2 : cut off cone overhang beyond the outer face of each wall.
+        // Left wall  (x < 0)
+        translate([-100, -1, -boss_height - 1])
+            cube([100, DEPTH + 2, h_back + boss_height + 5]);
+        // Front wall (y < 0)
+        translate([-1, -100, -boss_height - 1])
+            cube([WIDTH + 2, 100, h_back + boss_height + 5]);
+        // Right wall (x > WIDTH)
+        translate([WIDTH, -1, -boss_height - 1])
+            cube([100, DEPTH + 2, h_back + boss_height + 5]);
+        // Back wall  (y > DEPTH)
+        translate([-1, DEPTH, -boss_height - 1])
+            cube([WIDTH + 2, 100, h_back + boss_height + 5]);
     }
 }
 
