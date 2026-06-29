@@ -123,9 +123,9 @@ BTN_POSITION           = [90, 110]; // position (sloped face coordinates)
 // -----------------------------------------------------------------------------
 // DB9 (×1)
 // -----------------------------------------------------------------------------
-DB9_CUTOUT_WIDTH       = 24;     // rectangular cutout (width, X)
+DB9_CUTOUT_WIDTH       = 19.20;  // rectangular cutout (width, X)
 DB9_CUTOUT_HEIGHT      = 12;     // rectangular cutout (height, Z)
-DB9_INSERT_SPACING     = 30;     // M3 insert spacing (in X, outside cutout)
+DB9_INSERT_SPACING     = 24.5;   // M3 insert spacing (in X, outside cutout)
 DB9_POSITION_X         = 60;     // X position on the back face (centered)
 DB9_POSITION_Z         = 12.5;   // Z position from bottom of base (centered in 25 mm) — obsolete, DB9 moved
 DB9_POSITION_Z_COVER   = 15;     // Z position from bottom of cover
