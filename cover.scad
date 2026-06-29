@@ -38,6 +38,23 @@ module sloped_face_flat() {
                 cylinder(d = POT_HOLE_DIAMETER, h = 100);
         }
 
+        // Anti-rotation tab slots — 2 per pot (left/right)
+        sw  = POT_TAB_WIDTH  + POT_TAB_CLEARANCE;   // 1.2 mm
+        sl  = POT_TAB_LENGTH + POT_TAB_CLEARANCE;   // 3.1 mm
+        sd  = min(POT_TAB_DEPTH + POT_TAB_CLEARANCE,
+                  WALL_THICKNESS - POT_TAB_SLOT_FLOOR);  // capped at 1.5 mm
+        hs  = POT_TAB_SPAN  / 2;                    // 12.4 mm
+        for (pos = POT_POSITIONS) {
+            translate([pos[0], pos[1], 0]) {
+                // Left tab
+                translate([-hs - sw/2, -sl/2, -0.1])
+                    cube([sw, sl, sd + 0.1]);
+                // Right tab
+                translate([+hs - sw/2, -sl/2, -0.1])
+                    cube([sw, sl, sd + 0.1]);
+            }
+        }
+
         // Joystick — through-hole
         translate([JOY_POSITION[0], JOY_POSITION[1], -10])
             cylinder(d = JOY_HOLE_DIAMETER, h = 100);

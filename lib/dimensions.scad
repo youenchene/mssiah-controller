@@ -85,13 +85,19 @@ POT_BODY_DIAMETER         = 28;    // potentiometer body diameter
 POT_BODY_HEIGHT           = 12.6;  // body height under the face
 POT_REINFORCE_DIAMETER    = 22;    // local reinforcement diameter
 POT_REINFORCE_THICKNESS   = 4;     // local reinforcement thickness
+POT_TAB_SPAN              = 24.8;  // inter-ergot distance (center to center)
+POT_TAB_WIDTH             = 0.8;   // tab width (X, circumferential)
+POT_TAB_LENGTH            = 2.7;   // tab length (Y, radial)
+POT_TAB_DEPTH             = 4.8;   // tab protrusion from pot body (Z, into face)
+POT_TAB_CLEARANCE         = 0.4;   // 3D-print tolerance
+POT_TAB_SLOT_FLOOR        = 1.0;   // minimum material remaining under slot (non-traversant)
 
 // Potentiometer positions (sloped face coordinate system)
 POT_POSITIONS = [
-    [38.5, 85],   // P1 — middle row, left
-    [81.5, 85],   // P2 — middle row, right
-    [38.5, 40],   // P3 — front row, left
-    [81.5, 40],   // P4 — front row, right
+    [38.5, 65],   // P1 — middle row, left
+    [81.5, 65],   // P2 — middle row, right
+    [38.5, 20],   // P3 — front row, left
+    [81.5, 20],   // P4 — front row, right
 ];
 
 // -----------------------------------------------------------------------------
@@ -104,7 +110,7 @@ JOY_PCB_SPACING        = 35;     // mounting hole spacing (center-to-center)
 JOY_PCB_HOLE_DIAMETER  = 2.5;    // hole diameter on the PCB
 JOY_REINFORCE_SIZE     = 45;     // local reinforcement size (square)
 JOY_REINFORCE_THICKNESS = 6;     // local reinforcement thickness
-JOY_POSITION           = [30, 130]; // joystick position (sloped face coordinates)
+JOY_POSITION           = [30, 110]; // joystick position (sloped face coordinates)
 
 // -----------------------------------------------------------------------------
 // Arcade button Sanwa OBSF-30 (×1)
@@ -112,7 +118,7 @@ JOY_POSITION           = [30, 130]; // joystick position (sloped face coordinate
 BTN_HOLE_DIAMETER      = 30;     // pass-through hole (snap-in)
 BTN_COLLAR_DIAMETER    = 33;     // collar diameter
 BTN_DEPTH              = 40;     // depth under the face
-BTN_POSITION           = [90, 130]; // position (sloped face coordinates)
+BTN_POSITION           = [90, 110]; // position (sloped face coordinates)
 
 // -----------------------------------------------------------------------------
 // DB9 (×1)
