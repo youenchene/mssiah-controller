@@ -96,8 +96,8 @@ POT_TAB_SLOT_FLOOR        = 1.0;   // minimum material remaining under slot (non
 POT_POSITIONS = [
     [38.5, 65],   // P1 — middle row, left
     [81.5, 65],   // P2 — middle row, right
-    [38.5, 20],   // P3 — front row, left
-    [81.5, 20],   // P4 — front row, right
+    [38.5, 21.5],   // P3 — front row, left
+    [81.5, 21.5],   // P4 — front row, right
 ];
 
 // -----------------------------------------------------------------------------

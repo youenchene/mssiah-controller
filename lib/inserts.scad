@@ -23,7 +23,7 @@ module insert_hole(m, depth = 0) {
 // m : metric size (2.5, 3, 4, 5)
 // -----------------------------------------------------------------------------
 module screw_through_hole(m) {
-    diam_screw = (m == 2.5) ? 2.7 : (m == 3) ? 3.2 : (m == 4) ? 4.2 : 5.2;
+    diam_screw = (m == 2.5) ? 3.5 : (m == 3) ? 4 : (m == 4) ? 6 : 6;
     cylinder(d = diam_screw, h = 100, center = true);
 }
 
